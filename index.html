@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+  
+  <!-- Page Title -->
+	<title>Would You Like A Book With That Movie?</title>
+
+ <!-- Bootstrap Links -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+
+  <!-- Stretchy JS Link (to add stretchiness to input box) -->
+  <script src="assets/javascript/stretchy.js" async></script>
+
+  <!-- Granim.JS Link (for gradient background) -->
+  <script src="assets/javascript/granim.min.js"></script>
+
+  <!-- Google Fonts Link -->
+  <link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/images/tinybook.jpeg">
+  
+  <!-- Mobile Viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS Reference -->
+	<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- Set gradient background on body -->
+  <canvas id="canvas-background"></canvas>
+
+	<header>
+		
+		<div class="jumbotron">
+
+			<a href="index.html"><h1>Would You Like A Book With That Movie?</h1></a>
+
+			<div id="movieSearchInput" class="form-group">
+      	
+        <!--don't add bootstrap class to input or stretchiness won't work-->
+      	<input type="text" id="movieTitle" placeholder="Enter a movie">
+ 	 		
+    		<button type="submit" id="submitMovie" class="btn btn-default col-md-2">Search</button>
+
+    	</div> <!--end of form-group row-->
+
+        <!-- movieChosenDiv will be shown once a movie has been clicked-->
+    		<div id="movieChosenDiv">
+    			<h2>Your movie is: <br><span id="movieChosen">chosen movie title here</span></h2>
+    		</div>
+
+		</div> <!--end of jumbotron-->
+
+	</header>
+
+  <div class="container" id="wrap"> <!--leave this under header/at top of page to keep sticky footer in place-->
+
+<!-- Movie Results will display here-->
+  <div class="row" id="movieResults">
+  </div>
+
+<!--Book Results will display here-->
+	<div id="bookResults">
+
+		<h2>Try One of These!</h2>
+    <h4 id="clickOnBook">(Click on a book for more info)</h4>
+
+		<div class="row" id="row1">
+
+<!--book1-->
+			<div class="offset-md-1 col-md-2"> 
+
+				<div id="book1" class="hovereffect">
+                                    
+        </div> <!--end of #book1 div-->
+
+				<!--modal1-->
+				<div class="modal fade" id="moreInfo1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  					<div class="modal-dialog modal-sm">
+    					<div class="modal-content">
+
+    						<div class="modal-header">
+
+        						<h5 class="modal-title" id="modal1Title">Book Title</h5>
+
+        						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          						<span aria-hidden="true">&times;</span>
+        						</button>
+
+      						</div> <!--end of modal header-->
+
+      						<div class="modal-body">
+                    <p>Written by <span id="book1Author"></span></p>
+       							<p class="bookInfo" id="book1Info">More book information will be here.  </p>
+                    <p><span id="book1PageCount"></span> pages</p> 
+                    <p><a id="book1PreviewLink" target="_blank" href="">Preview this book here</a></p>     	
+                  </div><!--end of modal1 body-->
+    						
+    					</div> <!--end of modal1 content-->
+  					</div> 
+				</div> <!--end of modal1-->
+			</div> 
+<!--end of book1-->
+
+<!--book2-->
+			<div class="col-md-2"> 
+
+        <div id="book2" class="hovereffect">
+
+        </div> <!--end of #book2 div-->
+
+        <!--modal2-->
+        <div class="modal fade" id="moreInfo2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal2Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book2Author"></span></p>
+                    <p class="bookInfo" id="book2Info">More book information will be here.</p>
+                    <p><span id="book2PageCount"></span> pages</p> 
+                    <p><a id="book2PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal2 body-->
+                
+              </div> <!--end of modal2 content-->
+            </div> 
+        </div> <!--end of modal2-->
+      </div> 
+<!--end of book2-->
+
+<!--book3-->
+      <div class="col-md-2"> 
+
+        <div id="book3" class="hovereffect">
+
+        </div> <!--end of #book3 div-->
+
+        <!--modal3-->
+        <div class="modal fade" id="moreInfo3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal3Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal3 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book3Author"></span></p>
+                    <p class="bookInfo" id="book3Info">More book information will be here. </p>
+                    <p><span id="book3PageCount"></span> pages</p> 
+                    <p><a id="book3PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal3 body-->
+                
+              </div> <!--end of modal3 content-->
+            </div> 
+        </div> <!--end of modal3-->
+      </div> 
+<!--end of book3-->
+
+<!--book4-->
+      <div class="col-md-2"> 
+
+        <div id="book4" class="hovereffect">
+
+        </div> <!--end of #book4 div-->
+
+        <!--modal4-->
+        <div class="modal fade" id="moreInfo4" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal4Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal4 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book4Author"></span></p>
+                    <p class="bookInfo" id="book4Info">More book information will be here.</p>
+                    <p><span id="book4PageCount"></span> pages</p> 
+                    <p><a id="book4PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal4 body-->
+                
+              </div> <!--end of modal4 content-->
+            </div> 
+        </div> <!--end of modal4-->
+      </div> 
+<!--end of book4-->
+
+<!--book5-->
+      <div class="col-md-2"> 
+
+        <div id="book5" class="hovereffect">
+         
+        </div> <!--end of #book5 div-->
+
+        <!--modal5-->
+        <div class="modal fade" id="moreInfo5" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal5Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal5 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book5Author"></span></p>
+                    <p class="bookInfo" id="book5Info">More book information will be here.</p>
+                    <p><span id="book5PageCount"></span> pages</p> 
+                    <p><a id="book5PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal5 body-->
+                
+              </div> <!--end of modal5 content-->
+            </div> 
+        </div> <!--end of modal5-->
+      </div> 
+<!--end of book5-->
+
+		</div> <!--end of book row1 -->
+
+    <!-- Start book row2 -->
+		<div class="row" id="row2">
+
+<!--book6-->
+      <div class="offset-md-1 col-md-2"> 
+
+        <div id="book6" class="hovereffect">
+
+        </div> <!--end of #book6 div-->
+
+        <!--modal6-->
+        <div class="modal fade" id="moreInfo6" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal6Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal6 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book6Author"></span></p>
+                    <p class="bookInfo" id="book6Info">More book information will be here.</p>
+                    <p><span id="book6PageCount"></span> pages</p> 
+                    <p><a id="book6PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal6 body-->
+                
+              </div> <!--end of modal6 content-->
+            </div> 
+        </div> <!--end of modal6-->
+      </div> 
+<!--end of book6-->
+
+<!--book7-->
+      <div class="col-md-2"> 
+
+        <div id="book7" class="hovereffect">
+         
+        </div> <!--end of #book7 div-->
+
+        <!--modal7-->
+        <div class="modal fade" id="moreInfo7" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal7Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal7 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book7Author"></span></p>
+                    <p class="bookInfo" id="book7Info">More book information will be here.</p>
+                    <p><span id="book7PageCount"></span> pages</p> 
+                    <p><a id="book7PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal7 body-->
+                
+              </div> <!--end of modal7 content-->
+            </div> 
+        </div> <!--end of modal7-->
+      </div> 
+<!--end of book7-->
+
+<!--book8-->
+      <div class="col-md-2"> 
+
+        <div id="book8" class="hovereffect">
+          
+        </div> <!--end of #book8 div-->
+
+        <!--modal8-->
+        <div class="modal fade" id="moreInfo8" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal8Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal8 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book8Author"></span></p>
+                    <p class="bookInfo" id="book8Info">More book information will be here.</p>
+                    <p><span id="book8PageCount"></span> pages</p> 
+                    <p><a id="book8PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal8 body-->
+                
+              </div> <!--end of modal8 content-->
+            </div> 
+        </div> <!--end of modal8-->
+      </div> 
+<!--end of book8-->
+
+<!--book9-->
+      <div class="col-md-2"> 
+
+        <div id="book9" class="hovereffect">
+          
+        </div> <!--end of #book9 div-->
+
+        <!--modal9-->
+        <div class="modal fade" id="moreInfo9" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal9Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal9 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book9Author"></span></p>
+                    <p class="bookInfo" id="book9Info">More book information will be here.</p>
+                    <p><span id="book9PageCount"></span> pages</p> 
+                    <p><a id="book9PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal9 body-->
+                
+              </div> <!--end of modal9 content-->
+            </div> 
+        </div> <!--end of modal9-->
+      </div> 
+<!--end of book9-->
+
+<!--book10-->
+      <div class="col-md-2"> 
+
+        <div id="book10" class="hovereffect">
+         
+        </div> <!--end of #book10 div-->
+
+        <!--modal10-->
+        <div class="modal fade" id="moreInfo10" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modal10Title">Book Title</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div> <!--end of modal10 header-->
+
+                  <div class="modal-body">
+                    <p>Written by <span id="book10Author"></span></p>
+                    <p class="bookInfo" id="book10Info">More book information will be here.</p>
+                    <p><span id="book10PageCount"></span> pages</p> 
+                    <p><a id="book10PreviewLink" target="_blank" href="">Preview this book here</a></p>      
+                  </div><!--end of modal10 body-->
+                
+              </div> <!--end of modal10 content-->
+            </div> 
+        </div> <!--end of modal10-->
+      </div> 
+<!--end of book10-->
+		
+		</div> <!--end of book row2 -->
+
+	</div> <!--end of book result -->
+
+  <!-- Recent Search div -->
+	<div id="recentSearches">
+
+    <h2 id="recent-search-text">
+      Recent Movies Searched
+    </h2>
+
+		<div class="row">
+
+      <div class="offset-md-2 col-md-8" id="most-recent-posters">
+        <!-- Input from JS only -->
+      </div> <!-- end of most recent posters div -->
+
+		</div> <!--end of recent movie row div-->
+	</div><!--end of recentSearches div-->
+
+  <!-- End of page container #wrap -->
+  </div>
+
+  <!-- Begin Footer -->
+	<footer id="footer">
+
+		<p>Created by the <a href="https://github.com/Applesauce-Collaborative" target="_blank">Applesauce Collaborative</a> &copy; 2017 with content from <a href="https://developers.google.com/books/" target="_blank">Google Books API</a> and <a href="https://www.themoviedb.org/documentation/api" target="_blank"><img src="assets/images/tmdb logo.png" height="30" width="30" alt="TMDB logo"> API</a></p>
+
+  <!-- End Footer -->
+	</footer>
+
+<!-- jQuery Link --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- JS Reference(s) -->
+<script src="assets/javascript/app.js"></script>
+<script src="assets/javascript/display.js"></script>
+
+</body>
+
+</html>
+
+
+
+  
+         
+
+
+ 
+  
+

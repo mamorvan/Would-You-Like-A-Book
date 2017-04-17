@@ -1,0 +1,265 @@
+body {
+	margin: 0 auto;
+	font-family: "Special Elite", serif;
+	background-color: #2290BA;
+}
+
+/* Styling for all links */
+a:link, a:hover, a:active, a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+/* Set fancy gradient background */
+#canvas-basic {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/* More fancy gradient background styling */
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -9999;
+}
+
+/* Styling for header text */
+h1 {
+	text-align: center;
+	text-shadow: 5px 2px 2px black;
+	color: #FFFD8D;	
+}
+
+/* Styling for secondary header text */
+h2 {
+	text-align: center;
+	text-shadow: 5px 2px 2px black;
+	color: #FFFD8D;	
+	margin: 20px 5px 5px 5px;
+}
+
+/* Jumbotron */
+.jumbotron {
+	text-align: center;
+	background-image: url(../images/bookbackground.jpg);
+	background-size: cover;
+	border-bottom-style: solid;
+	border-width: 1px;
+	border-color: #1a6f8f;
+}
+
+/* Styling for movie search div */
+.form-group {
+	margin-top: 20px;
+}
+
+/* Styling for input box */
+#movieTitle {
+	font-family: "Special Elite", serif;
+	margin-left: 25%;
+	margin-right: 25%;
+	padding: 10px 20px;
+	min-width: 180px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #1a6f8f;
+	border-radius: 5px;
+	text-align: center;
+}
+
+/* Styling for submit button */
+.btn {
+	font-family: "Special Elite", serif;
+	background-color: #2290BA;
+	margin: 10px;
+	width: 125px;
+	color: #FFFD8D;
+	opacity: .75;
+	margin-left: 25%;
+	margin-right: 25%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #1a6f8f;
+}
+
+/* Styling for submit button on hover */
+.btn:hover {
+	opacity: 1;
+}
+
+/* Not displayed until a movie is chosen */
+/* Styling for movieChosenDiv */
+#movieChosenDiv {
+	background-color: #2290BA;
+	opacity: .75;
+	border: 2px solid #1a6f8f;
+	border-radius: 5px;
+	margin: 20px 200px;
+	margin-left: 25%;
+	margin-right: 25%;
+	padding: 10px;
+	min-width: 300px;
+}
+
+/* Book Results Display */
+
+/* Styling for images */
+#bookResults img {
+	border: 2px #FFFD8D solid;
+	margin: 5px;
+}
+
+/* Styling for h4 directive re: clicking on a book */
+#clickOnBook {
+	text-align: center;
+	margin: 0px 5px 30px 5px;
+}
+
+/* Styling for book information under each title */
+#bookResults h5,p {	
+	text-align: center;
+	position: relative;
+	text-align: center;	
+}
+
+/* Styling on book/movie image hover */
+.hovereffect:hover img {
+	transform: scale(1.2);
+}
+
+/* Modal Styling */
+.modal-header {
+	text-align: center;
+	background-color: #FFFD8D ;
+}
+
+/* Book info styling inside modal */
+.bookInfo {
+	text-align: left;
+}
+
+/* styling for link to preview */
+.modal-body a {
+	font-family: "Special Elite", serif;
+	background-color: #2290BA;
+	margin: 10px;
+	padding: 5px;
+	color: #FFFD8D;
+	opacity: .75;	
+	border: solid 1px #1a6f8f;
+	border-radius: 5px;
+}
+
+.modal-body a:hover {
+	opacity: 1;
+}
+
+/* Styling for Recent Searches Div */
+#recentSearches {
+	margin: 20px;
+}
+
+/* Styling for Recent Search Movie Poster images */
+.recentPosters {
+	width: 150px;
+	margin: 20px;
+}
+
+/* Styling for Recent Movie Posters Div */
+#most-recent-posters {
+	display: inline;
+	text-align: center;
+}
+
+/* Footer Styling */
+footer {
+	background-color: #FFFD8D;
+	text-align: center;
+}
+
+/* Footer Text Styling */
+#footer p {
+	padding: 15px;
+	font-size: 12px;
+}
+
+/* Sticky footer positioning and to get rid of weird L-R scroll bar */
+html, body {
+	height: 100%;
+	overflow-x: hidden;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto;
+	/* Negative indent footer by its height */
+	margin: 0px auto -60px;
+	/* Pad bottom by footer height */
+	padding: 0px 0px 60px 0px;
+}
+
+/* Sticky footer styling! */
+#footer {
+	/* Must match margin-bottom in .wrapper CSS */
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #FFFD8D;
+	text-align: center;
+	overflow: auto;
+	overflow-y: hidden;
+	margin-top: 50px;
+}
+
+/*-----------------------------------------------------------------*/
+/* Additional Screen Sizes */
+/*-----------------------------------------------------------------*/
+/* Width at 980px (Desktop) and below */
+@media screen and (max-width: 980px) {
+	/* Resizes movie chosen block based on page size */
+	#movieChosenDiv {
+		width: 500px;
+		margin: 20px 200px;
+	}
+
+
+/*-----------------------------------------------------------------*/
+/* Width at 768px (Tablet) and below */
+@media screen and (max-width: 768px) {
+	/* Resizes movie chosen block based on page size */
+	#movieChosenDiv {
+		width: 500px;
+		margin: 20px 100px;
+	}
+
+	/* Centers images in rows on tablet page size */
+	#row1, #row2, #movieResults {
+		display: inline;
+		text-align: center;
+	}
+
+
+/*-----------------------------------------------------------------*/
+/* Width at 640px (Cell Phone) and below */
+@media screen and (max-width: 640px) {
+	/* Resizes movie chosen block based on page size */
+	#movieChosenDiv {
+		width: 500px;
+		margin: 20px 40px;
+	}
+
+	/* Centers images in rows on smallest (cell phone) page size */
+	#row1, #row2, #movieResults {
+		display: inline;
+		text-align: center;
+	}
