@@ -1,36 +1,56 @@
-//---------------------------------------------------------------------------
-// VARIABLE DECLARATIONS!
+//----------------------------------------------------------------------------------------
+// GLOBAL VARIABLES
+
+var moviePickedPosterPath;
+var genreToSearch; //hold movie genre to match to book subject - random from movie picked genre array
+
+//movie DB api not reliable so making a static object with id - name matches 
+//keep in mind that these values may change at api and need to be updated
+//this will hold the id to genre name matches with id as key and name as value
+var genreIdsObject = {
+  28 : "Action",
+  12: "Adventure",
+  16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  18: "Drama",
+  10751: "Family",
+  14: "Fantasy",
+  36: "History",
+  27: "Horror",
+  10402: "Music",
+  9648: "Mystery",
+  10749: "Romance",
+  878: "Science Fiction",
+  10770: "TV Movie",
+  53: "Thriller",
+  10752: "War",
+  37: "Western"
+}; 
 
 // Initialize Firebase
   var config = {
-		apiKey: "AIzaSyBWFWAg2YMXu1TO-RUD2APOpX_Knds8m4o",
-		authDomain: "movies-to-books-c3182.firebaseapp.com",
-		databaseURL: "https://movies-to-books-c3182.firebaseio.com",
-		projectId: "movies-to-books-c3182",
-		storageBucket: "movies-to-books-c3182.appspot.com",
-		messagingSenderId: "28649429385"
-	};
+    apiKey: "AIzaSyBWFWAg2YMXu1TO-RUD2APOpX_Knds8m4o",
+    authDomain: "movies-to-books-c3182.firebaseapp.com",
+    databaseURL: "https://movies-to-books-c3182.firebaseio.com",
+    projectId: "movies-to-books-c3182",
+    storageBucket: "movies-to-books-c3182.appspot.com",
+    messagingSenderId: "28649429385"
+  };
   
   firebase.initializeApp(config);
-	
+  
   var database = firebase.database();
 
-  var moviePickedPosterPath;
 
-  var genreToSearch;
+//------------------------------------------------------------------------------------------------------------------------------
+// FUNCTIONS
 
-  var genreIdsObject = {};
-
-  var moviePickedGenreNames = [];
-
-
-//---------------------------------------------------------------------------
-// FUNCTION DECLARATIONS!
-
-// Sets what to show on page load
+  // Sets what to show on page load
 function onPageLoad() {
-	$("#movieChosenDiv").hide();
-	$("#bookResults").hide();
+  $("#movieChosenDiv").hide();
+  $("#bookResults").hide();
   $("#movieResults").hide();
   movieCall();
   $("#most-recent-posters").empty();
@@ -46,6 +66,7 @@ database.ref().orderByKey().limitToLast(3).
       }
   });
 
+
 // Handles movie searches/requests and displays possible movie posters
 function movieCall() {
 
@@ -57,13 +78,8 @@ function movieCall() {
   // Prevents default submit button action/prevents page load
     event.preventDefault();
 
-    //empty genreidobject and moviepickedgenrenames before pushing new data
-    genreIdsObject = {};
-    moviePickedGenreNames = [];
-
     // Set variable term equal to search input
     movieSearchInput = $("#movieTitle").val().trim();
-console.log("movieSearchInput: " + movieSearchInput);
 
     // Clears search box input
     $("#movieTitle").val("");
@@ -81,26 +97,40 @@ console.log("movieSearchInput: " + movieSearchInput);
     // first search, otherwise bookResults div will stay visible beneath movieResults div)
     $("#bookResults").hide();
 
+    // ajax call info
     var base = "https://api.themoviedb.org/3/";
     var search = "search/movie?query='" + movieSearchInput + "'&";
     var genre = "genre/movie/list?";
     var key = "api_key=b287a269fa3356a822e8c1b358a6f0fc";
 
-    $.ajax({
-      url: base + genre + key,
-      method: "GET"
-    }).done(function(genreResponse){
 
-console.log(genreResponse);
 
-      //make genreIdsObject with genre ids as keys and corresponding genre strings as values
-      for (i = 0 ; i < genreResponse.genres.length ; i++) {
-        genreIdsObject[genreResponse.genres[i].id] = genreResponse.genres[i].name; 
-      };
-console.log(genreIdsObject);
 
-    }); //end of genre call
+//     // first movie DB call to make genre id to genre name object //settings per movie DB docs
+//     var settings = {
+//       "async": true,
+//       "crossDomain": true,
+//       "url": base + genre + key,
+//       "method": "GET",
+//       "headers": {},
+//       "data": "{}"
+//     }
 
+//     $.ajax(settings).done(function (response) {
+//       console.log(response);
+//       console.log(response.genres.length);
+ 
+//       //make genreIdsObject with genre ids as keys and corresponding genre strings as values
+//       for (i = 0 ; i < response.genres.length ; i++) {
+//         genreIdsObject[response.genres[i].id] = response.genres[i].name; 
+//       };
+
+// console.log("genreIdsObject:" + genreIdsObject);
+
+//     }); //end of genre call
+
+
+    // make 2nd call to movie DB to search for movies with title input by user
     $.ajax({
       url: base + search + key,
       method: "GET" 
@@ -110,56 +140,60 @@ console.log(genreIdsObject);
       $("#movieResults").empty();
 
       // If a movie selected doesn't return any results
-      if (data.results.length === 0) {
+      if (response.results.length === 0) {
       // Let user know to search for something else
-      $("#movieChosenDiv").html("We're sorry. Your search did not return any results.<br>Check your spelling or try another movie title.")
-      .css({"display": "block", "color": "white", "font-size": "120%", "border": "2px #FFFD8D solid"});
+      $("#movieChosenDiv").html("We're sorry. Your search did not return any results.<br>Check your spelling or try another movie title.");
       } 
     
-console.log(response);
       // display all movie posters found unless there is no poster path
       for (i = 0; i < response.results.length; i++){
-        // if (!(response.results[i].poster_path=="https://image.tmdb.org/t/p/w500null")) {
+          if (!(response.results[i].poster_path == null)) {
           var foundMovieDiv = $("<div>").addClass("col-md-2 hovereffect");
           var foundMoviePoster = $("<img>").attr({
             "class":"img-thumbnail", 
-            "src": response.results[i].poster_path,
+            "src": "https://image.tmdb.org/t/p/w500" + response.results[i].poster_path,
             "alt":"movie poster",
             "id": response.results[i].title,
             "dataGenre": response.results[i].genre_ids
-          }).on("click", moviePicked);
+          })
+          .on("click", moviePicked);
           var foundMovieTitle = $("<p>").text(response.results[i].title);
           // Pulls only year from release date info (removes month and day)
           var yearOnly = response.results[i].release_date.slice(0,4);
           var foundMovieYear = $("<p>").text(yearOnly);
+
+          $("#movieResults").append(foundMovieDiv);
+          foundMovieDiv.append(foundMoviePoster);
+          foundMovieDiv.append(foundMovieTitle);
+          foundMovieDiv.append(foundMovieYear);
+
+          } //close the if movie poster is available
     
-          $("#movieResults").append(foundMovieDiv).append(foundMoviePoster).append(foundMovieTitle).append(foundMovieYear);
-    
-        } //close the movie-poster display for loop
+        }; //close the movie-poster display for loop
      
     }); //end of movie data call
 
-}); // end of movieCall function
-  
+  }); // end of submit on click
 
-//get information from movie poster picked
+} // end of movieCall function
+
+
+// handles storing and passing information from movie picked to firebase and bookCall function
 function moviePicked() {
-
   var moviePickedTitle = $(this).attr("id");
-  var moviePickedPosterPath = $(this).attr("src");
+  //store in global variable to be stored in firebase
+  moviePickedPosterPath = $(this).attr("src");
   var moviePickedGenreIds = $(this).attr("dataGenre");
-console.log(moviePickedGenreIds);
+  //convert from string to an array
+  moviePickedGenreIds = moviePickedGenreIds.split(",");
+  //
+  var random = Math.floor((Math.random() * moviePickedGenreIds.length));
+  var moviePickedRandomGenreId = moviePickedGenreIds[random];
+  genreToSearch = genreIdsObject[moviePickedRandomGenreId];
 
-  //create array of genre names for movie picked
-  for (i = 0 ; i < moviePickedGenreIds.length ; i++) {
-      moviePickedGenreNames.push(genreIdsObject[moviePickedGenreIds[i]]);
-    };
-
-console.log("moviePickedGenreNames: " + moviePickedGenreNames);
-
-  //GRAB random GENRE from array
-  var random = Math.floor((Math.random() * moviePickedGenreNames.length));
-  genreToSearch = moviepickedgenrenames[random];
+console.log("genreToSearch: " + genreToSearch);  
+console.log("moviePickedTitle: " + moviePickedTitle);
+console.log("moviePickedPosterPath: " + moviePickedPosterPath);
 
   //DISPLAY NAME OF CLICKED MOVIE ON DISPLAY
   $("#movieChosenDiv").hide();
@@ -172,7 +206,7 @@ console.log("moviePickedGenreNames: " + moviePickedGenreNames);
 
    bookCall();
 
-} //end of moviePicked function
+}
 
 
 // Handles book searches/requests
@@ -345,4 +379,5 @@ function bookCall() {
 
 // Start everything with onPageLoad function
 onPageLoad();
+
 
